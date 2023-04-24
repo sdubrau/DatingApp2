@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AccountService } from '../_services/account.service';
+import { HotToastService } from '@ngneat/hot-toast';
 
 @Component({
   selector: 'app-register',
