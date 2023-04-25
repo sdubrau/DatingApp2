@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { User } from '../_models/user';
 import { Router } from '@angular/router';
 import { HotToastService } from '@ngneat/hot-toast';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-nav',
@@ -18,16 +19,14 @@ ngOnInit(){
   
 }
 
-constructor(public accountService: AccountService, private router: Router) {  }
+constructor(public accountService: AccountService, private router: Router, private toastr: ToastrService) {  }
   
  
 
   login(){
     this.accountService.login(this.model).subscribe({
         next: _ => this.router.navigateByUrl('/members'),
-        error: error => {
-          console.log('ta mere suce des bites');
-        }
+        error: error => this.toastr.error(error.error)
      })
   }
 
