@@ -2,9 +2,6 @@
     <div class="container">
       <a class="navbar-brand" href="#">Dating App</a>
         <ul class="navbar-nav me-auto mb-2 mb-md-0">
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/errors">Errors</a>
-          </li>
           <ng-container *ngIf="accountService.currentUser$ | async">
             <li class="nav-item">
               <a class="nav-link" routerLink="/members">Matches</a>
@@ -20,7 +17,7 @@
 
         <div class="dropdown" *ngIf="(accountService.currentUser$ | async) as user" dropdown>
           <img src="{{user.photoUrl || './assets/user.png' }}" alt="User photo">
-          <a class="dropdown-toggle text-light text-decoration-none ms-2" dropdownToggle>Welcome {{user.username | titlecase}}</a>
+          <a class="dropdown-toggle text-light text-decoration-none ms-2" dropdownToggle>Welcome {{user.knownAs}}</a>
           <div class="dropdown-menu mt-3" *dropdownMenu>
             <a class="dropdown-item" routerLink="/member/edit">Edit Profile</a>
             <a class="dropdown-item" (click)="logout()" >Logout</a>

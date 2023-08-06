@@ -9,23 +9,18 @@ import { User } from './_models/user';
 })
 export class AppComponent implements OnInit {
   title = 'Dating App';
-  
-  constructor( private accountService: AccountService) {
-  
-  
-}
-ngOnInit(){
-  
-  this.setCurrentUser();
-}
 
+  constructor(private accountService: AccountService) {
 
+  }
+  ngOnInit() {
+    this.setCurrentUser();
+  }
 
-setCurrentUser(){
-  const userString = localStorage.getItem('user');
-  if(!userString) return;
-  const user: User = JSON.parse(userString);
-  this.accountService.setCurrentUser(user);
-}
-
+  setCurrentUser() {
+    const userString = localStorage.getItem('user');
+    if (!userString) return;
+    const user: User = JSON.parse(userString);
+    this.accountService.setCurrentUser(user);
+  }
 }
