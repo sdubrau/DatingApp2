@@ -8,6 +8,10 @@
     border-bottom: 4px solid #fbcdcf;
   }
   
+.gallery {
+  height: 600px;
+}
+
   .member-tabset > .nav-tabs > li.open > a, .member-tabset > .nav-tabs > li:hover > a {
     border: 0;
     background: none !important;
