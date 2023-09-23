@@ -6,13 +6,14 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TimeagoModule } from 'ngx-timeago';
 import { Member } from 'src/app/_models/member';
 import { MembersService } from 'src/app/_services/members.service';
+import { MemberMessagesComponent } from '../member-messages/member-messages.component';
 
 @Component({
   selector: 'app-member-detail',
   standalone: true,
   templateUrl: './member-detail.component.html',
   styleUrls: ['./member-detail.component.css'],
-  imports:[CommonModule, TabsModule, GalleryModule, TimeagoModule]
+  imports:[CommonModule, TabsModule, GalleryModule, TimeagoModule, MemberMessagesComponent]
 })
 export class MemberDetailComponent implements OnInit {
   member: Member | undefined;
@@ -23,25 +24,16 @@ export class MemberDetailComponent implements OnInit {
 
   }
   ngOnInit(): void {
+    console.log('entering init');
     this.loadMember();
 
 
   }
-  // getImages() {
-  //   if (!this.member) return [];
-  //   const imageUrls = [];
-  //   for (const photo of this.member.photos) {
-  //     imageUrls.push({
-  //       small: photo.url,
-  //       medium: photo.url,
-  //       big: photo.url,
-  //     })
-  //   }
-  //   return imageUrls;
-  // }
+    
   loadMember() {
     const username = this.route.snapshot.paramMap.get('username');
     if (!username) return;
+    console.log('entering load');
     this.memberService.getMember(username).subscribe({
       next: member => {
         this.member = member,

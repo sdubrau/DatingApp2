@@ -11,8 +11,11 @@ export class AccountService {
   baseUrl=environment.apiUrl;
   private currentUserSource = new BehaviorSubject<User | null>(null);
   currentUser$ = this.currentUserSource.asObservable();
+  currUse : User | null;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { 
+    this.currUse=null;
+  }
 
   login(model: any){
     return this.http.post<User>(this.baseUrl + 'account/login', model).pipe(
@@ -36,11 +39,14 @@ export class AccountService {
 
   setCurrentUser(user: User){
     localStorage.setItem('user', JSON.stringify(user));
+    this.currUse = user;
     this.currentUserSource.next(user);
+    
   }
 
   logout(){
     localStorage.removeItem('user');
+    this.currUse = null;
     this.currentUserSource.next(null);
   }
 }

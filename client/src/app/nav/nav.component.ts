@@ -23,8 +23,9 @@ constructor(public accountService: AccountService, private router: Router, priva
 
   login(){
     this.accountService.login(this.model).subscribe({
-        next: _ => {this.router.navigateByUrl('/members')
-      this.memberService.resetUserParams()}
+        next: _ => {this.router.navigateByUrl('/members');
+      this.memberService.resetUserParams();
+    }
      })
   }
 
