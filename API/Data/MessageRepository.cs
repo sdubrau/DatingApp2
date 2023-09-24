@@ -41,9 +41,9 @@ namespace API.Data
 
             query = messageParams.Container switch
             {
-                "Inbox" => query.Where(u => u.RecipientUserName == messageParams.Username),
-                "Outbox" => query.Where(u => u.SenderUserName == messageParams.Username),
-                _ => query.Where(u => u.RecipientUserName == messageParams.Username && u.DateRead == null)
+                "Inbox" => query.Where(u => u.RecipientUserName == messageParams.Username && u.RecipientDeleted == false),
+                "Outbox" => query.Where(u => u.SenderUserName == messageParams.Username && u.SenderDeleted == false),
+                _ => query.Where(u => u.RecipientUserName == messageParams.Username && u.RecipientDeleted == false && u.DateRead == null)
             };
 
             var messages = query.ProjectTo<MessageDto>(_mapper.ConfigurationProvider);
@@ -57,19 +57,20 @@ namespace API.Data
             .Include(u => u.Sender).ThenInclude(p => p.Photos)
             .Include(u => u.Recipient).ThenInclude(p => p.Photos)
             .Where(
-                m => m.RecipientUserName == currentUserName &&
+                m => m.RecipientUserName == currentUserName && m.RecipientDeleted == false &&
                 m.SenderUserName == recipientUserName ||
-                m.RecipientUserName == recipientUserName &&
+                m.RecipientUserName == recipientUserName && m.SenderDeleted == false &&
                 m.SenderUserName == currentUserName
             )
-            .OrderByDescending(m => m.DateSent)
+            .OrderBy(m => m.DateSent)
             .ToListAsync();
 
             var unreadMessages = messages.Where(m => m.DateRead == null && m.RecipientUserName == currentUserName).ToList();
-            if(unreadMessages.Any()){
+            if (unreadMessages.Any())
+            {
                 foreach (var message in unreadMessages)
                 {
-                    message.DateRead=DateTime.UtcNow;
+                    message.DateRead = DateTime.UtcNow;
                 }
                 await _context.SaveChangesAsync();
             }
