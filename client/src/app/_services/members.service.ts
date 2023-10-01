@@ -2,7 +2,7 @@ import { Injectable, OnInit } from '@angular/core';
 import { environment } from '../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Member } from '../_models/member';
-import { map, of, take } from 'rxjs';
+import { first, map, of, take } from 'rxjs';
 import { UserParams } from '../_modules/userParams';
 import { AccountService } from './account.service';
 import { User } from '../_models/user';
@@ -20,7 +20,7 @@ export class MembersService {
 
 
   constructor(private http: HttpClient, private accountService: AccountService) {
-    this.accountService.currentUser$.pipe(take(1)).subscribe({
+    this.accountService.currentUser$.subscribe({
       next: user => {
         if (user) {
           this.userParams = new UserParams(user);
@@ -28,6 +28,7 @@ export class MembersService {
         }
       }
     })
+    
 
   }
 
