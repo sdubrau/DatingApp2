@@ -10,28 +10,30 @@ import { MembersService } from '../_services/members.service';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
-  model: any ={};
-  
-  
-ngOnInit(){
-  
-}
+  model: any = {};
 
-constructor(public accountService: AccountService, private router: Router, private toastr: ToastrService, private memberService: MembersService) {  }
-  
- 
 
-  login(){
-    this.accountService.login(this.model).subscribe({
-        next: _ => {this.router.navigateByUrl('/members');
-      this.memberService.resetUserParams();
-    }
-     })
+  ngOnInit() {
+
   }
 
-  logout(){
+  constructor(public accountService: AccountService, private router: Router, private toastr: ToastrService, private memberService: MembersService) { }
+
+
+
+  login() {
+    this.accountService.login(this.model).subscribe({
+      next: _ => {
+        this.router.navigateByUrl('/members');
+        this.memberService.resetUserParams();
+        this.model = {}; /*Permet de vider les champs login et password au rechargement*/
+      }
+    })
+  }
+
+  logout() {
     this.accountService.logout();
     this.router.navigateByUrl('/');
-   }
+  }
 }
 

@@ -1,12 +1,21 @@
 <div class="card">
     <div class="card-body">
+        
+        
+        
+        
         <div *ngIf="(messageService.messageThread$ | async)?.length === 0">
             No messages yet... Say hi using the message box below
         </div>
-        <ul class="chat" *ngIf="(messageService.messageThread$ | async)!.length > 0">
+        <ul 
+        #scrollMe
+        style="overflow: scroll; height: 500px"
+        [scrollTop]="scrollMe.scrollHeight"
+        
+        class="chat" *ngIf="(messageService.messageThread$ | async)!.length > 0">
         <li *ngFor="let message of (messageService.messageThread$ | async)">
             <div>
-                <span class="chat-img float-end">
+                <span class="chat-img float-end pe-4">
                     <img src="{{message.senderPhotoUrl || './assets/user.png'}}" 
                     alt="image of user" class="rounded-circle">
                 </span>
